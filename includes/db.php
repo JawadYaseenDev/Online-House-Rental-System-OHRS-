@@ -29,7 +29,7 @@ function db(): PDO
             $pdo = new PDO($dsn, DB_USER, DB_PASS, $options);
         } catch (PDOException $e) {
             // In production: log error, show friendly page
-            die(json_encode(['error' => 'Database connection failed.']));
+            die(json_encode(['error' => 'Database connection failed.', 'details' => $e->getMessage()]));
         }
     }
     return $pdo;
