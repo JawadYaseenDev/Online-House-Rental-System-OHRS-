@@ -1,0 +1,10 @@
+{
+    "name": "jawadyaseen/ohrs",
+    "description": "Online House Rental System",
+    "require": {
+        "php": ">=8.0",
+        "ext-pdo": "*",
+        "ext-pdo_mysql": "*",
+        "ext-mysqli": "*"
+    }
+}
