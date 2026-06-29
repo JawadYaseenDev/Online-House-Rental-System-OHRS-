@@ -2,6 +2,8 @@
 /**
  * Global bootstrap file — included by every page
  */
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
 if (session_status() === PHP_SESSION_NONE) session_start();
 
 define('ROOT_PATH', dirname(__DIR__, 0) . '/');  // adjust depth as needed
