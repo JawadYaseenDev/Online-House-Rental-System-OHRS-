@@ -4,13 +4,6 @@
 -- Engine: InnoDB | Charset: utf8mb4
 -- ============================================================
 
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
-START TRANSACTION;
-SET time_zone = "+00:00";
-
-CREATE DATABASE IF NOT EXISTS `ohrs` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-USE `ohrs`;
 
 -- --------------------------------------------------------
 -- Table: users
@@ -265,4 +258,3 @@ INSERT INTO `offers` (`house_id`,`title`,`description`,`discount_pct`,`start_dat
 INSERT INTO `contact_messages` (`name`,`email`,`subject`,`message`) VALUES
 ('Ahmed Khan','ahmed@example.com','Inquiry about DHA Property','I would like to know more details about the villa in DHA Phase 5. Please contact me at your earliest convenience.');
 
-COMMIT;
