@@ -4,11 +4,15 @@
  * OHRS — Online House Rental System
  */
 
-define('DB_HOST', getenv('MYSQLHOST') ?: 'localhost');
-define('DB_NAME', getenv('MYSQLDATABASE') ?: 'ohrs');
-define('DB_USER', getenv('MYSQLUSER') ?: 'root');
-define('DB_PASS', getenv('MYSQLPASSWORD') ?: '');
-define('DB_PORT', getenv('MYSQLPORT') ?: '3306');
+function get_env_var($key, $default = '') {
+    return $_ENV[$key] ?? $_SERVER[$key] ?? getenv($key) ?: $default;
+}
+
+define('DB_HOST', get_env_var('MYSQLHOST', 'localhost'));
+define('DB_NAME', get_env_var('MYSQLDATABASE', 'ohrs'));
+define('DB_USER', get_env_var('MYSQLUSER', 'root'));
+define('DB_PASS', get_env_var('MYSQLPASSWORD', ''));
+define('DB_PORT', get_env_var('MYSQLPORT', '3306'));
 define('DB_CHARSET', 'utf8mb4');
 
 function db(): PDO
