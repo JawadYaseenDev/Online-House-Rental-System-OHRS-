@@ -1,0 +1,99 @@
+/* ============================================================
+   OHRS — Animations & Transitions
+   ============================================================ */
+
+/* ── Page Fade-in ────────────────────────────────────────── */
+.page-fade {
+  animation: pageFadeIn 340ms ease both;
+}
+@keyframes pageFadeIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Staggered card entry ────────────────────────────────── */
+.card-appear {
+  opacity: 0;
+  animation: cardAppear 400ms ease forwards;
+}
+.card-appear:nth-child(1)  { animation-delay:  60ms; }
+.card-appear:nth-child(2)  { animation-delay: 120ms; }
+.card-appear:nth-child(3)  { animation-delay: 180ms; }
+.card-appear:nth-child(4)  { animation-delay: 240ms; }
+.card-appear:nth-child(5)  { animation-delay: 300ms; }
+.card-appear:nth-child(6)  { animation-delay: 360ms; }
+.card-appear:nth-child(7)  { animation-delay: 420ms; }
+.card-appear:nth-child(8)  { animation-delay: 480ms; }
+.card-appear:nth-child(9)  { animation-delay: 540ms; }
+
+@keyframes cardAppear {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Number counter ──────────────────────────────────────── */
+.count-up { transition: none; }
+
+/* ── Skeleton loader ─────────────────────────────────────── */
+.skeleton {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite;
+  border-radius: var(--radius-sm);
+}
+@keyframes shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* ── Pulse dot (live indicator) ──────────────────────────── */
+.pulse-dot {
+  display: inline-block;
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  position: relative;
+}
+.pulse-dot::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: var(--accent);
+  animation: pulse 1.8s ease-out infinite;
+}
+@keyframes pulse {
+  0%   { transform: scale(1);   opacity: 1; }
+  100% { transform: scale(2.5); opacity: 0; }
+}
+
+/* ── Slide-in from right (sidebar mobile) ────────────────── */
+@keyframes slideInRight {
+  from { transform: translateX(100%); }
+  to   { transform: translateX(0); }
+}
+
+/* ── Bounce on hover (CTA) ───────────────────────────────── */
+.hover-bounce:hover { animation: bounceLight 280ms ease; }
+@keyframes bounceLight {
+  0%,100% { transform: translateY(0); }
+  50%      { transform: translateY(-4px); }
+}
+
+/* ── Search results fade ─────────────────────────────────── */
+#houses-grid {
+  transition: opacity 200ms ease;
+}
+#houses-grid.loading { opacity: 0.4; pointer-events: none; }
+
+/* ── Modal animate ───────────────────────────────────────── */
+.modal.fade .modal-dialog {
+  transition: transform 250ms ease, opacity 250ms ease;
+  transform: translateY(-20px);
+}
+.modal.show .modal-dialog { transform: translateY(0); }
+
+/* ── Tooltip-style error ─────────────────────────────────── */
+.invalid-feedback { font-size: 0.78rem; }
+.form-control.is-invalid { border-color: var(--danger); }
+.form-control.is-valid   { border-color: var(--accent); }

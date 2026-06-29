@@ -1,0 +1,238 @@
+/* ============================================================
+   OHRS — Admin Panel Stylesheet
+   ============================================================ */
+
+:root {
+  --sidebar-w:      240px;
+  --sidebar-bg:     #111827;
+  --sidebar-hover:  rgba(255,255,255,.07);
+  --sidebar-active: rgba(26,86,219,.85);
+  --topbar-h:       60px;
+}
+
+/* ── Layout ──────────────────────────────────────────────── */
+body.admin-body {
+  background: #f3f4f6;
+  font-family: var(--font);
+  font-size: 14px;
+}
+
+.admin-wrapper { display: flex; min-height: 100vh; }
+
+/* ── Sidebar ─────────────────────────────────────────────── */
+.admin-sidebar {
+  width: var(--sidebar-w);
+  background: var(--sidebar-bg);
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 0; left: 0; bottom: 0;
+  z-index: 1040;
+  overflow-y: auto;
+  transition: transform 280ms ease;
+}
+
+.sidebar-logo {
+  padding: 1.25rem 1.25rem 1rem;
+  border-bottom: 1px solid rgba(255,255,255,.07);
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-shrink: 0;
+}
+.sidebar-logo .logo-text {
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: -0.02em;
+}
+.sidebar-logo .logo-badge {
+  font-size: 0.65rem;
+  font-weight: 700;
+  background: var(--primary);
+  color: #fff;
+  padding: .15em .55em;
+  border-radius: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.sidebar-section-label {
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: rgba(255,255,255,.3);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 1.1rem 1.25rem 0.4rem;
+}
+
+.sidebar-nav { list-style: none; margin: 0; padding: 0.5rem 0.75rem; flex: 1; }
+.sidebar-nav li { margin-bottom: 1px; }
+.sidebar-nav a {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.6rem 0.875rem;
+  border-radius: var(--radius-sm);
+  color: rgba(255,255,255,.65);
+  font-size: 0.865rem;
+  font-weight: 500;
+  transition: background var(--transition), color var(--transition);
+  text-decoration: none;
+}
+.sidebar-nav a .bi { font-size: 1rem; flex-shrink: 0; }
+.sidebar-nav a:hover { background: var(--sidebar-hover); color: #fff; }
+.sidebar-nav a.active { background: var(--primary); color: #fff; }
+
+.sidebar-user {
+  padding: 1rem 1.25rem;
+  border-top: 1px solid rgba(255,255,255,.07);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+.sidebar-user img {
+  width: 34px; height: 34px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.sidebar-user .name { font-size: 0.82rem; font-weight: 600; color: #fff; line-height: 1.2; }
+.sidebar-user .role { font-size: 0.72rem; color: rgba(255,255,255,.45); }
+
+/* ── Main Content ────────────────────────────────────────── */
+.admin-main {
+  margin-left: var(--sidebar-w);
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+/* ── Topbar ──────────────────────────────────────────────── */
+.admin-topbar {
+  height: var(--topbar-h);
+  background: var(--white);
+  border-bottom: 1px solid var(--neutral-200);
+  display: flex;
+  align-items: center;
+  padding: 0 1.5rem;
+  gap: 1rem;
+  position: sticky;
+  top: 0;
+  z-index: 1020;
+  box-shadow: var(--shadow-sm);
+}
+.admin-topbar .page-title { font-size: 1rem; font-weight: 700; color: var(--neutral-900); margin: 0; }
+.topbar-actions { margin-left: auto; display: flex; align-items: center; gap: 0.75rem; }
+
+.topbar-icon-btn {
+  width: 36px; height: 36px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--neutral-200);
+  background: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--neutral-600);
+  cursor: pointer;
+  transition: all var(--transition);
+  position: relative;
+}
+.topbar-icon-btn:hover { background: var(--neutral-50); color: var(--primary); }
+.topbar-badge {
+  position: absolute;
+  top: -4px; right: -4px;
+  background: var(--danger);
+  color: #fff;
+  font-size: 0.62rem;
+  font-weight: 700;
+  width: 16px; height: 16px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ── Page Content ────────────────────────────────────────── */
+.admin-content { padding: 1.75rem; flex: 1; }
+
+/* ── Admin KPI Cards ─────────────────────────────────────── */
+.kpi-card {
+  background: var(--white);
+  border: 1px solid var(--neutral-200);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  transition: box-shadow var(--transition);
+}
+.kpi-card:hover { box-shadow: var(--shadow-md); }
+.kpi-icon {
+  width: 52px; height: 52px;
+  border-radius: var(--radius);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  flex-shrink: 0;
+}
+.kpi-card .num  { font-size: 1.9rem; font-weight: 800; line-height: 1; color: var(--neutral-900); }
+.kpi-card .lbl  { font-size: 0.8rem; color: var(--neutral-500); margin-top: 0.2rem; }
+.kpi-card .diff {
+  font-size: 0.75rem;
+  font-weight: 600;
+  margin-top: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
+}
+.diff-up   { color: var(--accent); }
+.diff-down { color: var(--danger); }
+
+/* ── Admin Panels / Cards ────────────────────────────────── */
+.admin-card {
+  background: var(--white);
+  border: 1px solid var(--neutral-200);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+.admin-card-header {
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid var(--neutral-100);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.admin-card-header h5 { margin: 0; font-size: 0.95rem; font-weight: 700; }
+.admin-card-body { padding: 1.25rem; }
+
+/* ── Breadcrumb Admin ────────────────────────────────────── */
+.admin-breadcrumb {
+  font-size: 0.8rem;
+  color: var(--neutral-500);
+  margin-bottom: 0.25rem;
+}
+.admin-breadcrumb a { color: var(--neutral-500); }
+.admin-breadcrumb a:hover { color: var(--primary); }
+
+/* ── Status pills in tables ──────────────────────────────── */
+.admin-table-img {
+  width: 48px; height: 40px;
+  border-radius: var(--radius-sm);
+  object-fit: cover;
+}
+
+/* ── Chart wrapper ───────────────────────────────────────── */
+.chart-wrap { position: relative; height: 260px; }
+
+/* ── Sidebar collapse for mobile ─────────────────────────── */
+@media (max-width: 991px) {
+  .admin-sidebar { transform: translateX(-100%); }
+  .admin-sidebar.open { transform: translateX(0); }
+  .admin-main { margin-left: 0; }
+  .admin-content { padding: 1.25rem; }
+}

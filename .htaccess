@@ -1,0 +1,27 @@
+# OHRS — Apache Configuration
+# Place this in your OHRS project root
+
+Options -Indexes
+
+# Prevent direct access to sensitive directories
+<FilesMatch "\.(sql|log|env|md)$">
+    Require all denied
+</FilesMatch>
+
+# Protect actions directory from direct browser access
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Block direct POST to actions from outside
+    RewriteCond %{REQUEST_METHOD} GET
+    RewriteCond %{REQUEST_URI} ^/actions/ [NC]
+    RewriteRule ^actions/ - [F,L]
+</IfModule>
+
+# PHP settings
+<IfModule mod_php.c>
+    php_value upload_max_filesize 10M
+    php_value post_max_size 12M
+    php_value max_execution_time 60
+    php_value memory_limit 128M
+</IfModule>
