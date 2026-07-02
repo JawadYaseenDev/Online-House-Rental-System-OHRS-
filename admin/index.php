@@ -8,7 +8,9 @@ $kpis = db()->query(
        (SELECT COUNT(*) FROM houses WHERE status != 'inactive') AS total_houses,
        (SELECT COUNT(*) FROM houses WHERE status = 'available') AS available,
        (SELECT COUNT(*) FROM houses WHERE status = 'occupied') AS occupied,
+       (SELECT COUNT(*) FROM houses WHERE status = 'pending') AS pending_houses,
        (SELECT COUNT(*) FROM users WHERE role = 'customer') AS customers,
+       (SELECT COUNT(*) FROM users WHERE role = 'owner' AND status = 'inactive') AS pending_owners,
        (SELECT COUNT(*) FROM reservations WHERE status = 'pending') AS pending_res,
        (SELECT COUNT(*) FROM reservations) AS total_res,
        (SELECT COALESCE(SUM(amount),0) FROM payments WHERE status = 'paid') AS revenue,
@@ -71,10 +73,26 @@ $recent_res = db()->query(
 
 <!-- Alert: Pending reservations -->
 <?php if ($kpis['pending_res'] > 0): ?>
-  <div class="alert alert-warning d-flex align-items-center gap-2 mb-4 auto-dismiss">
+  <div class="alert alert-warning d-flex align-items-center gap-2 mb-3 auto-dismiss">
     <i class="bi bi-exclamation-triangle-fill"></i>
     <strong><?= $kpis['pending_res'] ?> reservation(s)</strong> are awaiting your approval.
     <a href="reservations.php" class="ms-auto btn btn-sm btn-warning">Review Now</a>
+  </div>
+<?php endif; ?>
+
+<?php if ($kpis['pending_owners'] > 0): ?>
+  <div class="alert alert-info d-flex align-items-center gap-2 mb-3 auto-dismiss">
+    <i class="bi bi-person-badge-fill"></i>
+    <strong><?= $kpis['pending_owners'] ?> owner account(s)</strong> are waiting for your approval.
+    <a href="users.php" class="ms-auto btn btn-sm btn-info text-white">Review Users</a>
+  </div>
+<?php endif; ?>
+
+<?php if ($kpis['pending_houses'] > 0): ?>
+  <div class="alert alert-secondary d-flex align-items-center gap-2 mb-3 auto-dismiss">
+    <i class="bi bi-house-exclamation-fill"></i>
+    <strong><?= $kpis['pending_houses'] ?> house listing(s)</strong> are pending your approval.
+    <a href="approvals.php" class="ms-auto btn btn-sm btn-secondary">Review Houses</a>
   </div>
 <?php endif; ?>
 

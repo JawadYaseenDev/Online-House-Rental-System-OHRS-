@@ -39,4 +39,9 @@ if ($dest) {
     header("Location: $dest"); exit;
 }
 
-redirect($user['role'] === 'admin' ? '../admin/index.php' : '../customer/dashboard.php');
+$dest_map = [
+    'admin'    => '../admin/index.php',
+    'owner'    => '../owner/dashboard.php',
+    'customer' => '../customer/dashboard.php',
+];
+redirect($dest_map[$user['role']] ?? '../customer/dashboard.php');

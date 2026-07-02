@@ -37,6 +37,34 @@ if ($existing->fetch()) {
     redirect('../house-detail.php?id=' . $house_id);
 }
 
+// Check for date overlap with any active reservation on this property
+if ($end_date) {
+    $overlap = db()->prepare(
+        "SELECT id FROM reservations
+         WHERE house_id = :h
+           AND status IN ('pending','approved')
+           AND start_date <= :end_date
+           AND (end_date IS NULL OR end_date >= :start_date)
+         LIMIT 1"
+    );
+    $overlap->execute([':h' => $house_id, ':start_date' => $start_date, ':end_date' => $end_date]);
+} else {
+    // No end date supplied — check if any approved reservation already covers the start date
+    $overlap = db()->prepare(
+        "SELECT id FROM reservations
+         WHERE house_id = :h
+           AND status IN ('pending','approved')
+           AND (end_date IS NULL OR end_date >= :start_date)
+         LIMIT 1"
+    );
+    $overlap->execute([':h' => $house_id, ':start_date' => $start_date]);
+}
+
+if ($overlap->fetch()) {
+    flash('warning', 'This property already has a reservation that overlaps your requested dates. Please choose different dates or another property.');
+    redirect('../house-detail.php?id=' . $house_id);
+}
+
 // Insert reservation
 db()->prepare(
     "INSERT INTO reservations (user_id, house_id, start_date, end_date, notes)

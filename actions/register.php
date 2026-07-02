@@ -1,8 +1,8 @@
 <?php
 require_once '../includes/init.php';
 
-if ($_SERVER['REQUEST_METHOD'] !== 'POST') redirect('../register.php');
-if (!csrf_check()) { flash('danger','Invalid request.'); redirect('../register.php'); }
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') redirect('../register-customer.php');
+if (!csrf_check()) { flash('danger','Invalid request.'); redirect('../register-customer.php'); }
 
 // Collect & sanitize
 $data = [
@@ -38,7 +38,7 @@ if ($dup->fetch()) $errors[] = 'An account with this email or CNIC already exist
 
 if ($errors) {
     flash('danger', implode('<br>', $errors));
-    redirect('../register.php');
+    redirect('../register-customer.php');
 }
 
 // Profile picture upload
@@ -51,21 +51,26 @@ if (!empty($_FILES['profile_pic']['name'])) {
     if ($uploaded) $pic = $uploaded;
 }
 
+$role   = 'customer'; // customer-only form
+$status = 'active';   // customers are active immediately
+
 // Insert user
 $stmt = db()->prepare(
-    "INSERT INTO users (first_name, last_name, cnic, dob, email, phone, password, profile_pic, family_members)
-     VALUES (:fn, :ln, :cnic, :dob, :email, :phone, :pw, :pic, :fm)"
+    "INSERT INTO users (first_name, last_name, cnic, dob, email, phone, password, profile_pic, family_members, role, status)
+     VALUES (:fn, :ln, :cnic, :dob, :email, :phone, :pw, :pic, :fm, :role, :status)"
 );
 $stmt->execute([
-    ':fn'   => $data['first_name'],
-    ':ln'   => $data['last_name'],
-    ':cnic' => $data['cnic'],
-    ':dob'  => $data['dob'],
-    ':email'=> $data['email'],
-    ':phone'=> $data['phone'],
-    ':pw'   => password_hash($password, PASSWORD_DEFAULT),
-    ':pic'  => $pic,
-    ':fm'   => $data['family_members'],
+    ':fn'    => $data['first_name'],
+    ':ln'    => $data['last_name'],
+    ':cnic'  => $data['cnic'],
+    ':dob'   => $data['dob'],
+    ':email' => $data['email'],
+    ':phone' => $data['phone'],
+    ':pw'    => password_hash($password, PASSWORD_DEFAULT),
+    ':pic'   => $pic,
+    ':fm'    => $data['family_members'],
+    ':role'  => $role,
+    ':status'=> $status,
 ]);
 
 flash('success', 'Account created successfully! Please login.');

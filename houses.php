@@ -5,7 +5,7 @@ $page_meta  = 'Search and filter available rental houses by location, price, bed
 $extra_js   = ['assets/js/search.js'];
 
 // Initial load: apply any GET filters
-$where  = ['h.status != "inactive"'];
+$where  = ['h.status = "available"'];
 $params = [];
 
 if (!empty($_GET['location'])) {
@@ -48,7 +48,7 @@ $sql   = "SELECT h.*, hi.image_path
           FROM houses h
           LEFT JOIN house_images hi ON hi.house_id = h.id AND hi.is_primary = 1
           WHERE " . implode(' AND ', $where) . "
-          ORDER BY h.status ASC, h.rent ASC
+          ORDER BY h.rent ASC
           LIMIT :limit OFFSET :offset";
 $stmt  = db()->prepare($sql);
 foreach ($params as $k => $v) $stmt->bindValue($k, $v);

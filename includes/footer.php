@@ -11,7 +11,7 @@
     <div class="row g-4">
 
       <div class="col-lg-4">
-        <div class="footer-brand"><i class="bi bi-house-heart-fill me-2"></i>OHRS</div>
+        <div class="footer-brand"><img src="<?= ROOT_URL ?>assets/img/logo.png" alt="OHRS" style="height:32px; margin-bottom: 0.5rem;"></div>
         <p style="font-size:.875rem;line-height:1.8;max-width:300px;">
           Pakistan's trusted online house rental platform. Find your perfect home with ease,
           transparency, and security.
@@ -27,22 +27,22 @@
       <div class="col-6 col-lg-2">
         <h6>Quick Links</h6>
         <ul>
-          <li><a href="index.php">Home</a></li>
-          <li><a href="houses.php">Browse Houses</a></li>
-          <li><a href="offers.php">Special Offers</a></li>
-          <li><a href="about.php">About Us</a></li>
-          <li><a href="contact.php">Contact</a></li>
+          <li><a href="<?= ROOT_URL ?>index.php">Home</a></li>
+          <li><a href="<?= ROOT_URL ?>houses.php">Browse Houses</a></li>
+          <li><a href="<?= ROOT_URL ?>offers.php">Special Offers</a></li>
+          <li><a href="<?= ROOT_URL ?>about.php">About Us</a></li>
+          <li><a href="<?= ROOT_URL ?>contact.php">Contact</a></li>
         </ul>
       </div>
 
       <div class="col-6 col-lg-2">
         <h6>Account</h6>
         <ul>
-          <li><a href="register.php">Register</a></li>
-          <li><a href="login.php">Login</a></li>
-          <li><a href="customer/dashboard.php">My Dashboard</a></li>
-          <li><a href="customer/reservations.php">My Reservations</a></li>
-          <li><a href="customer/payments.php">My Payments</a></li>
+          <li><a href="<?= ROOT_URL ?>register.php">Register</a></li>
+          <li><a href="<?= ROOT_URL ?>login.php">Login</a></li>
+          <li><a href="<?= ROOT_URL ?>customer/dashboard.php">My Dashboard</a></li>
+          <li><a href="<?= ROOT_URL ?>customer/reservations.php">My Reservations</a></li>
+          <li><a href="<?= ROOT_URL ?>customer/payments.php">My Payments</a></li>
         </ul>
       </div>
 
@@ -51,7 +51,7 @@
         <ul>
           <li style="margin-bottom:.6rem">
             <i class="bi bi-geo-alt text-primary me-2"></i>
-            <span style="font-size:.875rem">123 Gulberg III, Lahore, Pakistan</span>
+            <span style="font-size:.875rem">Rahim Yar Khan</span>
           </li>
           <li style="margin-bottom:.6rem">
             <i class="bi bi-telephone text-primary me-2"></i>
@@ -71,7 +71,7 @@
     </div>
 
     <div class="footer-bottom d-flex flex-column flex-md-row align-items-center justify-content-between gap-2">
-      <span>&copy; <?= date('Y') ?> OHRS — Online House Rental System. All rights reserved.</span>
+      <span>&copy; <?= date('Y') ?> OHRS — Online House Rental. All rights reserved.</span>
       <span>Designed &amp; developed for a university Final Year Project.</span>
     </div>
   </div>
@@ -81,7 +81,7 @@
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/glightbox/dist/js/glightbox.min.js"></script>
-<script src="assets/js/main.js"></script>
+<script src="<?= ROOT_URL ?>assets/js/main.js"></script>
 <?php if (!empty($extra_js)): ?>
   <?php foreach ((array)$extra_js as $js): ?>
     <script src="<?= e($js) ?>"></script>

@@ -3,12 +3,14 @@ $id = (int)($_GET['id'] ?? 0);
 if (!$id) { header('Location: houses.php'); exit; }
 
 require_once dirname(__DIR__) . '/includes/init.php';
-require_admin();
+require_login('../login.php');
+$u = current_user();
+if ($u['role'] !== 'owner') redirect('../index.php');
 
-$house = db()->prepare("SELECT * FROM houses WHERE id=:id");
-$house->execute([':id'=>$id]);
+$house = db()->prepare("SELECT * FROM houses WHERE id=:id AND owner_id=:uid");
+$house->execute([':id'=>$id, ':uid'=>$u['id']]);
 $house = $house->fetch();
-if (!$house) { flash('danger','House not found.'); redirect('houses.php'); }
+if (!$house) { flash('danger','House not found or unauthorized.'); redirect('houses.php'); }
 
 $images = db()->prepare("SELECT * FROM house_images WHERE house_id=:id ORDER BY is_primary DESC");
 $images->execute([':id'=>$id]);
@@ -17,32 +19,24 @@ $images = $images->fetchAll();
 $am = json_decode($house['amenities'] ?? '[]', true) ?: [];
 $amenities_str = implode(', ', $am);
 
-$admin_title      = 'Edit House';
-$admin_breadcrumb = ['Houses' => 'houses.php', 'Edit' => null];
+$owner_title      = 'Edit House';
+$owner_breadcrumb = ['Houses' => 'houses.php', 'Edit House' => null];
 
-require_once dirname(__DIR__) . '/includes/admin-header.php';
+require_once '../includes/owner-header.php';
 ?>
 
 <div class="admin-card" style="max-width:860px;">
   <div class="admin-card-header"><h5><?= e($house['title']) ?></h5></div>
   <div class="admin-card-body">
-    <form action="../actions/admin/house-save.php" method="POST" enctype="multipart/form-data">
+    <form action="../actions/owner/house-save.php" method="POST" enctype="multipart/form-data">
       <?= csrf_field() ?>
       <input type="hidden" name="mode" value="edit">
       <input type="hidden" name="house_id" value="<?= $id ?>">
 
       <div class="row g-3">
-        <div class="col-md-8">
+        <div class="col-md-12">
           <label class="form-label">Title <span class="text-danger">*</span></label>
-          <input type="text" name="title" class="form-control" required value="<?= e($house['title']) ?>">
-        </div>
-        <div class="col-md-4">
-          <label class="form-label">Status</label>
-          <select name="status" class="form-select">
-            <?php foreach (['available','reserved','occupied','inactive'] as $st): ?>
-              <option value="<?= $st ?>" <?= $house['status'] === $st ? 'selected' : '' ?>><?= ucfirst($st) ?></option>
-            <?php endforeach; ?>
-          </select>
+          <input type="text" name="title" class="form-control" required value="<?= e($house['title']) ?>" maxlength="150">
         </div>
         <div class="col-md-6">
           <label class="form-label">Location <span class="text-danger">*</span></label>
@@ -113,4 +107,4 @@ require_once dirname(__DIR__) . '/includes/admin-header.php';
   </div>
 </div>
 
-<?php require_once dirname(__DIR__) . '/includes/admin-footer.php'; ?>
+<?php require_once '../includes/owner-footer.php'; ?>

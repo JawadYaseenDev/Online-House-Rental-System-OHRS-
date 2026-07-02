@@ -4,12 +4,17 @@ require_once 'includes/init.php';
 $id = (int)($_GET['id'] ?? 0);
 if (!$id) redirect('houses.php');
 
-$house = db()->prepare(
-    "SELECT * FROM houses WHERE id = :id AND status != 'inactive'"
-);
+$house = db()->prepare("SELECT * FROM houses WHERE id = :id");
 $house->execute([':id' => $id]);
 $house = $house->fetch();
+
 if (!$house) redirect('houses.php');
+
+if (in_array($house['status'], ['inactive', 'pending'])) {
+    $u = current_user();
+    $can_view = $u && ($u['role'] === 'admin' || ($u['role'] === 'owner' && $u['id'] == $house['owner_id']));
+    if (!$can_view) redirect('houses.php');
+}
 
 // Images
 $images = db()->prepare("SELECT * FROM house_images WHERE house_id = :id ORDER BY is_primary DESC, sort_order ASC");
@@ -258,6 +263,15 @@ include_once 'includes/header.php';
     </div>
   </div>
 </div>
+<script>
+  // Move the modal to the body to prevent stacking context issues
+  document.addEventListener('DOMContentLoaded', function() {
+    var modal = document.getElementById('reserveModal');
+    if (modal) {
+      document.body.appendChild(modal);
+    }
+  });
+</script>
 <?php endif; ?>
 
 <?php include_once 'includes/footer.php'; ?>

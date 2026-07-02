@@ -45,10 +45,9 @@ include_once 'includes/header.php';
         <p class="section-tag mb-3" style="color:rgba(255,255,255,.75);">
           <i class="bi bi-shield-check me-1"></i> Trusted Rental Platform
         </p>
-        <h1 class="hero-title">Find Your Dream<br>Home Today</h1>
+        <h1 class="hero-title">Welcome to Your<br>Next Chapter</h1>
         <p class="hero-sub">
-          Browse verified house listings across Pakistan. Transparent pricing,
-          secure reservations, and a professional rental experience.
+          The easiest way to find and rent your perfect property locally. Fast, secure, and hassle-free.
         </p>
         <div class="d-flex gap-3 mt-4 flex-wrap">
           <a href="houses.php" class="btn btn-accent btn-lg hover-bounce">

@@ -32,7 +32,7 @@ include_once 'includes/header.php';
           <div class="icon-box"><i class="bi bi-geo-alt-fill"></i></div>
           <div>
             <div style="font-weight:700;font-size:.9rem;margin-bottom:.2rem;">Office Address</div>
-            <div style="font-size:.875rem;color:var(--neutral-500);">123 Gulberg III, Lahore, Pakistan</div>
+            <div style="font-size:.875rem;color:var(--neutral-500);">Rahim Yar Khan</div>
           </div>
         </div>
 

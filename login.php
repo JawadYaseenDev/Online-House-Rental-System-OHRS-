@@ -3,7 +3,8 @@ require_once 'includes/init.php';
 
 // Redirect if already logged in
 if (is_logged_in()) {
-    redirect(is_admin() ? 'admin/index.php' : 'customer/dashboard.php');
+    $map = ['admin'=>'admin/index.php','owner'=>'owner/dashboard.php','customer'=>'customer/dashboard.php'];
+    redirect($map[current_user()['role']] ?? 'customer/dashboard.php');
 }
 
 $page_title = 'Login';
@@ -13,7 +14,7 @@ include_once 'includes/header.php';
 <div class="auth-wrapper">
   <div class="container">
     <div class="auth-card mx-auto">
-      <div class="auth-logo"><i class="bi bi-house-heart-fill"></i> OHRS</div>
+      <div class="auth-logo"><img src="assets/img/logo.png" alt="OHRS" style="height:48px;"></div>
       <h2>Welcome back</h2>
       <p class="sub">Sign in to your account to continue</p>
 

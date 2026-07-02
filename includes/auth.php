@@ -24,6 +24,11 @@ function is_customer(): bool
     return is_logged_in() && ($_SESSION['user_role'] ?? '') === 'customer';
 }
 
+function is_owner(): bool
+{
+    return is_logged_in() && ($_SESSION['user_role'] ?? '') === 'owner';
+}
+
 // ── Require login — redirect if not authenticated ────────────
 function require_login(string $redirect = 'login.php'): void
 {

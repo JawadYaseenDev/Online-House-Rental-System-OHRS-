@@ -1,16 +1,20 @@
 <?php
-$admin_title      = 'Manage Houses';
-$admin_breadcrumb = ['Houses' => null];
-require_once '../includes/admin-header.php';
+$owner_title      = 'Manage Houses';
+$owner_breadcrumb = ['Houses' => null];
+require_once '../includes/owner-header.php';
 
-$houses = db()->query(
-    "SELECT h.*, COUNT(hi.id) AS img_count, CONCAT(u.first_name, ' ', u.last_name) AS owner_name
+$uid = current_user()['id'];
+
+$houses = db()->prepare(
+    "SELECT h.*, COUNT(hi.id) AS img_count
      FROM houses h
      LEFT JOIN house_images hi ON hi.house_id = h.id
-     LEFT JOIN users u ON u.id = h.owner_id
+     WHERE h.owner_id = :u
      GROUP BY h.id
      ORDER BY h.created_at DESC"
-)->fetchAll();
+);
+$houses->execute([':u' => $uid]);
+$houses = $houses->fetchAll();
 ?>
 
 <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
@@ -39,7 +43,6 @@ $houses = db()->query(
         <tr>
           <th>Image</th>
           <th>Title</th>
-          <th>Owner</th>
           <th>Location</th>
           <th>Rent</th>
           <th>Beds</th>
@@ -66,30 +69,32 @@ $houses = db()->query(
               <?php endif; ?>
             </td>
             <td><strong><?= e($h['title']) ?></strong></td>
-            <td><?= e($h['owner_name']) ?></td>
             <td><?= e($h['location']) ?></td>
             <td><?= fmt_money($h['rent']) ?>/mo</td>
             <td><?= (int)$h['bedrooms'] ?></td>
             <td><?= (int)$h['capacity'] ?></td>
             <td>
-              <select class="form-select form-select-sm status-select"
-                      data-url="../actions/admin/house-save.php?action=status"
-                      data-id="<?= $h['id'] ?>"
-                      style="width:120px;">
-                <?php foreach (['available','reserved','occupied','inactive'] as $st): ?>
-                  <option value="<?= $st ?>" <?= $h['status'] === $st ? 'selected' : '' ?>><?= ucfirst($st) ?></option>
-                <?php endforeach; ?>
-              </select>
+              <?php
+              $st = $h['status'];
+              $bg = 'secondary';
+              if ($st === 'available') $bg = 'success';
+              elseif ($st === 'pending') $bg = 'warning text-dark';
+              elseif ($st === 'reserved') $bg = 'info text-dark';
+              elseif ($st === 'occupied') $bg = 'primary';
+              ?>
+              <span class="badge bg-<?= $bg ?>"><?= ucfirst($st) ?></span>
             </td>
             <td>
               <div class="d-flex gap-1 flex-nowrap">
+                <?php if ($st !== 'pending'): ?>
                 <a href="../house-detail.php?id=<?= $h['id'] ?>" target="_blank"
                    class="btn btn-xs btn-outline-secondary" style="font-size:.75rem;padding:.25rem .55rem;"
                    data-bs-toggle="tooltip" title="Preview"><i class="bi bi-eye"></i></a>
+                <?php endif; ?>
                 <a href="house-edit.php?id=<?= $h['id'] ?>"
                    class="btn btn-xs btn-outline-primary" style="font-size:.75rem;padding:.25rem .55rem;"
                    data-bs-toggle="tooltip" title="Edit"><i class="bi bi-pencil"></i></a>
-                <a href="../actions/admin/house-delete.php?id=<?= $h['id'] ?>&csrf=<?= e(csrf_token()) ?>"
+                <a href="../actions/owner/house-delete.php?id=<?= $h['id'] ?>&csrf=<?= e(csrf_token()) ?>"
                    class="btn btn-xs btn-outline-danger confirm-action"
                    data-confirm="Delete this house and all its data?"
                    style="font-size:.75rem;padding:.25rem .55rem;"
@@ -103,4 +108,4 @@ $houses = db()->query(
   </div>
 </div>
 
-<?php require_once '../includes/admin-footer.php'; ?>
+<?php require_once '../includes/owner-footer.php'; ?>
