@@ -4,9 +4,9 @@
  */
 
 // ── Output sanitization ──────────────────────────────────────
-function e(string $s): string
+function e(?string $s): string
 {
-    return htmlspecialchars($s, ENT_QUOTES, 'UTF-8');
+    return htmlspecialchars($s ?? '', ENT_QUOTES, 'UTF-8');
 }
 
 // ── Flash message helpers ────────────────────────────────────
