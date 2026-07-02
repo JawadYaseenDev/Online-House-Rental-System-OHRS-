@@ -20,3 +20,14 @@ require_once __DIR__ . '/functions.php';
 try {
     db()->exec("ALTER TABLE houses ADD COLUMN owner_id INT(11) UNSIGNED DEFAULT NULL AFTER id");
 } catch(Exception $e){}
+
+try {
+    $db = db();
+    $db->exec("ALTER TABLE users ADD COLUMN current_address VARCHAR(255) DEFAULT NULL");
+    $db->exec("ALTER TABLE users ADD COLUMN city VARCHAR(100) DEFAULT NULL");
+    $db->exec("ALTER TABLE users ADD COLUMN owner_type ENUM('individual','agency') DEFAULT NULL");
+    $db->exec("ALTER TABLE users ADD COLUMN agency_name VARCHAR(150) DEFAULT NULL");
+    $db->exec("ALTER TABLE users ADD COLUMN cnic_front_image VARCHAR(255) DEFAULT NULL");
+    $db->exec("ALTER TABLE users ADD COLUMN cnic_back_image VARCHAR(255) DEFAULT NULL");
+    $db->exec("ALTER TABLE users ADD COLUMN proof_ownership_doc VARCHAR(255) DEFAULT NULL");
+} catch(Exception $e){}
