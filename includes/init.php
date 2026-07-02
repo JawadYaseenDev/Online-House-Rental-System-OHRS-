@@ -15,3 +15,8 @@ if (strpos($_SERVER['HTTP_HOST'] ?? '', 'localhost') !== false) {
 require_once __DIR__ . '/db.php';
 require_once __DIR__ . '/auth.php';
 require_once __DIR__ . '/functions.php';
+
+// Auto-fix the missing database column silently on every page load
+try {
+    db()->exec("ALTER TABLE houses ADD COLUMN owner_id INT(11) UNSIGNED DEFAULT NULL AFTER id");
+} catch(Exception $e){}
