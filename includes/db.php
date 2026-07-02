@@ -27,6 +27,8 @@ function db(): PDO
         ];
         try {
             $pdo = new PDO($dsn, DB_USER, DB_PASS, $options);
+            // Disable strict ONLY_FULL_GROUP_BY mode for this session
+            $pdo->exec("SET sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''))");
         } catch (PDOException $e) {
             // In production: log error, show friendly page
             die(json_encode(['error' => 'Database connection failed.', 'details' => $e->getMessage()]));
