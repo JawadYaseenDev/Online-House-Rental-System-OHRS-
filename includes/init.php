@@ -30,5 +30,8 @@ try {
     $db->exec("ALTER TABLE users ADD COLUMN cnic_front_image VARCHAR(255) DEFAULT NULL");
     $db->exec("ALTER TABLE users ADD COLUMN cnic_back_image VARCHAR(255) DEFAULT NULL");
     $db->exec("ALTER TABLE users ADD COLUMN proof_ownership_doc VARCHAR(255) DEFAULT NULL");
-    $db->exec("ALTER TABLE users MODIFY COLUMN role ENUM('admin','owner','customer') NOT NULL DEFAULT 'customer'");
+} catch(Exception $e){}
+
+try {
+    db()->exec("ALTER TABLE users MODIFY COLUMN role ENUM('admin','owner','customer') NOT NULL DEFAULT 'customer'");
 } catch(Exception $e){}
