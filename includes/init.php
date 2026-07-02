@@ -35,3 +35,7 @@ try {
 try {
     db()->exec("ALTER TABLE users MODIFY COLUMN role ENUM('admin','owner','customer') NOT NULL DEFAULT 'customer'");
 } catch(Exception $e){}
+
+try {
+    db()->exec("ALTER TABLE houses MODIFY COLUMN status ENUM('available','reserved','occupied','inactive','pending') DEFAULT 'available'");
+} catch(Exception $e){}
